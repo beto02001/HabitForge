@@ -22,11 +22,12 @@ final class HomeRouter: HomeRouterProtocol {
         let remoteDataManager: HomeRemoteDataManagerInputProtocol = HomeRemoteDataManager()
         let router: HomeRouterProtocol = HomeRouter(viewController: viewController)
         let presenter: HomePresenterProtocol & HomeInteractorOutputProtocol = HomePresenter(view: viewController, router: router)
-        let interactor: HomeInteractorInputProtocol & HomeRemoteDataManagerOutputProtocol = HomeInteractor(presenter: presenter, localDatamanager: localDataManager, remoteDatamanager: remoteDataManager)
+        let interactor: HomeInteractorInputProtocol & HomeRemoteDataManagerOutputProtocol & HomeLocalDataManagerOutputProtocol = HomeInteractor(presenter: presenter, localDatamanager: localDataManager, remoteDatamanager: remoteDataManager)
         
         viewController.presenter = presenter
         presenter.interactor = interactor
         remoteDataManager.remoteRequestHandler = interactor
+        localDataManager.localRequestHandler = interactor
         interactor.entity = entity
         return viewController
     }

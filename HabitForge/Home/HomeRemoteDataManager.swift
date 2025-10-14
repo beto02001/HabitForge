@@ -9,5 +9,5 @@
 import Foundation
 
 final class HomeRemoteDataManager: HomeRemoteDataManagerInputProtocol {
-    var remoteRequestHandler: HomeRemoteDataManagerOutputProtocol?
+    weak var remoteRequestHandler: HomeRemoteDataManagerOutputProtocol?
 }

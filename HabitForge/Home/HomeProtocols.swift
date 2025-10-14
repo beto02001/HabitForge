@@ -13,11 +13,14 @@ import UIKit
 /// Presenter -> View
 protocol HomeViewProtocol: AnyObject {
     var presenter: HomePresenterProtocol? { get set }
+    func updateTableView(data: [HabitViewModel])
 }
 
 // MARK: - Interactor
 /// Interactor -> Presenter
-protocol HomeInteractorOutputProtocol: AnyObject { }
+protocol HomeInteractorOutputProtocol: AnyObject {
+    func willUpdateView(data: [HabitViewModel])
+}
 
 /// Presenter -> Interactor
 protocol HomeInteractorInputProtocol: AnyObject {
@@ -28,6 +31,7 @@ protocol HomeInteractorInputProtocol: AnyObject {
     var entity: HomeEntity? { get set }
 
     func getNavTitle() -> String?
+    func fetchHabits() -> [HabitViewModel]
 }
 
 // MARK: - Presenter
@@ -38,6 +42,8 @@ protocol HomePresenterProtocol: AnyObject {
     var router: HomeRouterProtocol? { get set }
 
     func getNavTitle() -> String?
+    func getData() -> [HabitViewModel]
+    
 }
 
 // MARK: - Router
@@ -54,8 +60,16 @@ protocol HomeRemoteDataManagerInputProtocol: AnyObject {
     var remoteRequestHandler: HomeRemoteDataManagerOutputProtocol? { get set }
 }
 
+/// Interactor -> Local data manager
+protocol HomeLocalDataManagerInputProtocol: AnyObject {
+    var localRequestHandler: HomeLocalDataManagerOutputProtocol? { get set }
+    func fetchHabits()
+}
+
 /// Remote data manager -> Interactor
 protocol HomeRemoteDataManagerOutputProtocol: AnyObject { }
 
-/// Interactor -> Local data manager
-protocol HomeLocalDataManagerInputProtocol: AnyObject { }
+/// Local  data manager -> Interactor
+protocol HomeLocalDataManagerOutputProtocol: AnyObject {
+    func didFetchHabits(_ habits: [HabitViewModel])
+}

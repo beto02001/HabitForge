@@ -25,6 +25,21 @@ final class HomeInteractor: HomeInteractorInputProtocol {
     func getNavTitle() -> String? {
         return entity?.strNavBarTitle
     }
+    
+    func fetchHabits() -> [HabitViewModel] {
+        // This method signature is defined in the protocol as returning [HabitViewModel].
+        // Adjust the protocol to make this async/callback-based instead. For now, return an empty array and trigger fetch.
+        localDatamanager?.fetchHabits()
+        return []
+    }
+}
+
+extension HomeInteractor: HomeLocalDataManagerOutputProtocol {
+    func didFetchHabits(_ habits: [HabitViewModel]) {
+        presenter?.willUpdateView(data: habits)
+    }
+    
+    
 }
 
 extension HomeInteractor: HomeRemoteDataManagerOutputProtocol { }
